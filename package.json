@@ -1,0 +1,21 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Crawron",
+  "peerDependencies": {},
+  "prettier": {
+    "printWidth": 80,
+    "semi": false,
+    "singleQuote": false,
+    "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/request-promise-native": "^1.0.17",
+    "husky": "^3.1.0",
+    "ts-node": "^8.5.4",
+    "tsdx": "^0.11.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.2"
+  }
+}
