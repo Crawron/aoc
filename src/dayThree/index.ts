@@ -6,7 +6,16 @@ export class Vec2 {
 }
 
 export class Line {
-  constructor(public start: Vec2, public end: Vec2) {}
+  start: Vec2
+  end: Vec2
+
+  constructor(start: Vec2 | [number, number], end: Vec2 | [number, number]) {
+    if (!(start instanceof Vec2)) start = new Vec2(...start)
+    if (!(end instanceof Vec2)) end = new Vec2(...end)
+
+    this.start = start
+    this.end = end
+  }
 }
 
 export type Wire = Line[]
