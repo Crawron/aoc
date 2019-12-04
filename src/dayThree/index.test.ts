@@ -10,16 +10,6 @@ it.each([
   expect(checkVert(a as Line)).toBe(b)
 })
 
-const linePair: [Line, Line] = [
-  new Line([3, 5], [3, 2]),
-  new Line([6, 3], [2, 3]),
-]
-
-it.each([[linePair, new Vec2(3, 3)]])("intersection", (a, b) => {
-  a = a as [Line, Line]
-  expect(getIntersection(a[0], a[1])).toStrictEqual(b)
-})
-
 it.each([[[3, 5, 2], true], [[-20, 1, 100], false], [[10, 50, -8], true]])(
   "checkInRange",
   (a, b) => {
