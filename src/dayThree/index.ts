@@ -1,8 +1,14 @@
 import { splitString } from "../helpers/splitString"
 import { getInput } from "../helpers/getInput"
 
-export type Vec2 = [number, number]
-export type Line = [Vec2, Vec2]
+export class Vec2 {
+  constructor(public x = 0, public y = 0) {}
+}
+
+export class Line {
+  constructor(public start: Vec2, public end: Vec2) {}
+}
+
 export type Wire = Line[]
 
 export type Direction = "U" | "D" | "L" | "R"
@@ -13,26 +19,26 @@ export type Step = {
 
 function mapWire(steps: Step[]): Line[] {
   const wireLines: Line[] = []
-  let currentPos: Vec2 = [0, 0]
+  let pos: Vec2 = new Vec2()
 
   for (const step of steps) {
     const move: { [key in Direction]: (dist: number) => Vec2 } = {
-      U: dist => [currentPos[0], currentPos[1] + dist],
-      D: dist => [currentPos[0], currentPos[1] - dist],
-      R: dist => [currentPos[0] + dist, currentPos[1]],
-      L: dist => [currentPos[0] - dist, currentPos[1]],
+      U: dist => new Vec2(pos.x, pos.y + dist),
+      D: dist => new Vec2(pos.x, pos.y - dist),
+      R: dist => new Vec2(pos.x + dist, pos.y),
+      L: dist => new Vec2(pos.x - dist, pos.y),
     }
 
     const endPos = move[step.direction](step.distance)
-    wireLines.push([currentPos, endPos])
-    currentPos = endPos
+    wireLines.push(new Line(pos, endPos))
+    pos = endPos
   }
 
   return wireLines
 }
 
 export function checkVert(line: Line): boolean {
-  return line[0][0] === line[1][0]
+  return line.start.x === line.end.x
 }
 
 export function checkInRange(point: number, start: number, end: number) {
@@ -48,18 +54,18 @@ export function getIntersection(a: Line, b: Line): Vec2 | undefined {
   // check a is in range of b
   if (checkVert(a)) {
     let theyIntersect =
-      checkInRange(a[0][0], b[0][0], b[1][0]) &&
-      checkInRange(b[0][1], a[0][1], a[1][1])
+      checkInRange(a.start.x, b.start.x, b.end.x) &&
+      checkInRange(b.start.y, a.start.y, a.end.y)
 
     if (!theyIntersect) return undefined
-    return [a[0][0], b[0][1]]
+    return new Vec2(a.start.x, b.start.y)
   } else {
     let theyIntersect =
-      checkInRange(b[0][0], a[0][0], a[1][0]) &&
-      checkInRange(a[0][1], b[0][1], b[1][1])
+      checkInRange(b.start.x, a.start.x, a.end.x) &&
+      checkInRange(a.start.y, b.start.y, b.end.y)
 
     if (!theyIntersect) return undefined
-    return [b[0][0], a[0][1]]
+    return new Vec2(b.start.x, a.start.y)
   }
 }
 
@@ -68,7 +74,7 @@ function checkArraysEqual(a1: Vec2, a2: Vec2) {
 }
 
 function getManhattanMagnitude(point: Vec2) {
-  return Math.abs(point[0]) + Math.abs(point[1])
+  return Math.abs(point.x) + Math.abs(point.y)
 }
 
 function getWiresIntersections(a: Wire, b: Wire) {
@@ -77,7 +83,7 @@ function getWiresIntersections(a: Wire, b: Wire) {
   for (const lineA of a) {
     for (const lineB of b) {
       const intersection = getIntersection(lineA, lineB)
-      if (intersection && !checkArraysEqual(intersection, [0, 0]))
+      if (intersection && !checkArraysEqual(intersection, new Vec2()))
         intersections.push(intersection)
     }
   }
@@ -86,7 +92,7 @@ function getWiresIntersections(a: Wire, b: Wire) {
 }
 
 async function doTheThing() {
-  const input = (await getInput(__dirname + "/input"))
+  const input = (await getInput(__dirname))
     .split("\n")
     .map(wire => wire.split(","))
 
@@ -102,7 +108,7 @@ async function doTheThing() {
       }
       steps.push(parsedStep)
     }
-    console.log(mapWire(steps))
+
     wires.push(mapWire(steps))
   }
 
@@ -111,7 +117,7 @@ async function doTheThing() {
     .map(getManhattanMagnitude)
     .sort((a, b) => a - b)
 
-  console.log(intersections, distances)
+  console.log(`Solution:\nThe closest intersection: ${distances[0]}`)
 }
 
 doTheThing()
