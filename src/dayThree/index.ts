@@ -1,54 +1,8 @@
 import { splitString } from "../helpers/splitString"
 import { getInput } from "../helpers/getInput"
-
-export class Vec2 {
-  constructor(public x = 0, public y = 0) {}
-
-  get manhattanMag(): number {
-    return Math.abs(this.x) + Math.abs(this.y)
-  }
-
-  distTo(vec: Vec2) {
-    const { abs } = Math
-    return new Vec2(vec.x - this.x, vec.y - this.y).manhattanMag
-  }
-}
-
-export class Line {
-  start: Vec2
-  end: Vec2
-
-  constructor(start: Vec2 | [number, number], end: Vec2 | [number, number]) {
-    if (!(start instanceof Vec2)) start = new Vec2(...start)
-    if (!(end instanceof Vec2)) end = new Vec2(...end)
-
-    this.start = start
-    this.end = end
-  }
-
-  get length(): number {
-    return this.start.distTo(this.end)
-  }
-}
-
-class WireSegment extends Line {
-  constructor(public line: Line, public travel: number) {
-    super(line.start, line.end)
-  }
-}
-
-export type Wire = WireSegment[]
-
-export type Direction = "U" | "D" | "L" | "R"
-
-export class Intersection {
-  constructor(public pos: Vec2, public travel: number) {}
-}
-
-export type Step = {
-  direction: Direction
-  travel: number
-}
+import { Step, Wire, WireSegment, Intersection, Direction } from "./types"
+import { Vec2 } from "./types/Vec2"
+import { Line } from "./types/Line"
 
 function mapWire(steps: Step[]): Wire {
   const wire: Wire = []

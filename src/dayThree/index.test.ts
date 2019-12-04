@@ -1,4 +1,5 @@
-import { checkVert, Line, getIntersection, checkInRange, Vec2 } from "./index"
+import { checkVert, checkInRange } from "./index"
+import { Line } from "./types/Line"
 
 it.each([
   [new Line([0, 1], [0, 8]), true],
