@@ -31,18 +31,9 @@ export class Line {
   }
 }
 
-class WireSegment {
-  constructor(public line: Line, public travel: number) {}
-
-  get start() {
-    return this.line.start
-  }
-  get end() {
-    return this.line.end
-  }
-
-  get length() {
-    return this.line.length
+class WireSegment extends Line {
+  constructor(public line: Line, public travel: number) {
+    super(line.start, line.end)
   }
 }
 
