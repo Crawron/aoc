@@ -99,33 +99,24 @@ export function getIntersection(
   a: WireSegment,
   b: WireSegment
 ): Intersection | undefined {
+  const aIsVert = checkVert(a)
+
   // if lines are parallel, they wont intersect
-  if (checkVert(a) === checkVert(b)) return undefined
+  if (aIsVert === checkVert(b)) return undefined
 
-  // check a is in range of b
-  if (checkVert(a)) {
-    let theyIntersect =
-      checkInRange(a.start.x, b.start.x, b.end.x) &&
-      checkInRange(b.start.y, a.start.y, a.end.y)
+  const vert = aIsVert ? a : b
+  const horiz = aIsVert ? b : a
 
-    if (!theyIntersect) return undefined
+  let theyIntersect =
+    checkInRange(vert.start.x, horiz.start.x, horiz.end.x) &&
+    checkInRange(horiz.start.y, vert.start.y, vert.end.y)
 
-    const pos = new Vec2(a.start.x, b.start.y)
-    const travelA = Math.abs(a.travel) + Math.abs(a.start.distTo(pos))
-    const travelB = Math.abs(b.travel) + Math.abs(b.start.distTo(pos))
-    return new Intersection(pos, travelA + travelB)
-  } else {
-    let theyIntersect =
-      checkInRange(b.start.x, a.start.x, a.end.x) &&
-      checkInRange(a.start.y, b.start.y, b.end.y)
+  if (!theyIntersect) return undefined
 
-    if (!theyIntersect) return undefined
-
-    const pos = new Vec2(b.start.x, a.start.y)
-    const travelA = Math.abs(a.travel) + Math.abs(a.start.distTo(pos))
-    const travelB = Math.abs(b.travel) + Math.abs(b.start.distTo(pos))
-    return new Intersection(pos, travelA + travelB)
-  }
+  const pos = new Vec2(vert.start.x, horiz.start.y)
+  const travelA = Math.abs(a.travel) + Math.abs(a.start.distTo(pos))
+  const travelB = Math.abs(b.travel) + Math.abs(b.start.distTo(pos))
+  return new Intersection(pos, travelA + travelB)
 }
 
 function checkArraysEqual(a1: Vec2, a2: Vec2) {
