@@ -1,4 +1,4 @@
-import { getInput } from "../helpers/getInput"
+import { getInput } from "../../helpers/getInput"
 import { calculateInitialFuel, calculateTotalFuel } from "./calculateFuel"
 
 it("calculates fuel for modules", async () => {

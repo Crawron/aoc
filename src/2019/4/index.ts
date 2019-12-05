@@ -1,4 +1,4 @@
-import { getInput } from "../helpers/getInput"
+import { getInput } from "../../helpers/getInput"
 
 export function checkDecreasing(n: string): boolean {
   const digits = n.split("").map(Number)

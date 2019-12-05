@@ -1,4 +1,4 @@
-import { getInput } from "../helpers/getInput"
+import { getInput } from "../../helpers/getInput"
 import { restoreGravityAssistProgram, reverseOutput } from "./runProgram"
 
 const getProgram = async () => {
