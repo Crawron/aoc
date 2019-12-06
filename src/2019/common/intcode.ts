@@ -76,7 +76,6 @@ const opCodes: { [key: number]: Operation } = {
   },
 }
 
-// return is the final position of the pointer
 export type Operation = {
   argCount: number
   run: (program: Program, args: Argument[]) => void
@@ -85,11 +84,3 @@ export type Operation = {
 export function readInput() {
   return 1
 }
-
-export function parseProgram(input: string) {
-  console.log(new Program(input.split(",").map(Number)).run())
-}
-
-;(async function() {
-  parseProgram(await getInput(__dirname))
-})()
