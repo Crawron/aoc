@@ -1,5 +1,3 @@
-import { getInput } from "../../helpers/getInput"
-
 export type ArgMode = "position" | "immediate"
 export type Argument = { value: number; mode: ArgMode }
 export class Program {
