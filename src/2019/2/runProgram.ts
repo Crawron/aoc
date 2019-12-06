@@ -1,26 +1,4 @@
-// https://adventofcode.com/2019/day/2
-
-type Operation = (a: number, b: number) => number
-
-const opCodes: { [key: number]: Operation } = {
-  1: (a, b) => a + b,
-  2: (a, b) => a * b,
-}
-
-function runProgram(program: number[], noun: number, verb: number): number {
-  program[1] = noun
-  program[2] = verb
-
-  for (let pos = 0; program[pos] !== 99; pos += 4) {
-    const op = program[pos]
-    const a = program[program[pos + 1]]
-    const b = program[program[pos + 2]]
-    const resultPtr = program[pos + 3]
-
-    program[resultPtr] = opCodes[op](a, b)
-  }
-  return program[0]
-}
+import { runProgram } from "../common/intcode"
 
 // Part 1
 export function restoreGravityAssistProgram(program: number[]) {
