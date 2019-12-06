@@ -22,7 +22,7 @@ export class Program {
     const { getValue: get, pointer } = this
 
     const [, modesMatch, opStr, opButNoModes] =
-      /^(?:(\d+)(\d\d))|(?:(\d+))$/.exec(get().toString()) ?? []
+      /^(\d+)(\d\d)|(\d+)$/.exec(get().toString()) ?? []
 
     const code = Number(modesMatch ? opStr : opButNoModes)
     const modesStr = modesMatch ?? ""
