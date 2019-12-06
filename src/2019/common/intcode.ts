@@ -72,6 +72,30 @@ const opCodes: { [key: number]: Operation } = {
       console.log(prog.getValue(input))
     },
   },
+  5: {
+    argCount: 2,
+    run: (prog, [val, pos]) => {
+      if (prog.getValue(val)) prog.pointer = prog.getValue(pos) - 3
+    },
+  },
+  6: {
+    argCount: 2,
+    run: (prog, [val, pos]) => {
+      if (!prog.getValue(val)) prog.pointer = prog.getValue(pos) - 3
+    },
+  },
+  7: {
+    argCount: 3,
+    run: (prog, [a, b, pos]) => {
+      prog.write(pos.value, prog.getValue(a) < prog.getValue(b) ? 1 : 0)
+    },
+  },
+  8: {
+    argCount: 3,
+    run: (prog, [a, b, pos]) => {
+      prog.write(pos.value, prog.getValue(a) === prog.getValue(b) ? 1 : 0)
+    },
+  },
 }
 
 export type Operation = {
@@ -80,5 +104,6 @@ export type Operation = {
 }
 
 export function readInput() {
+  console.log("input 1")
   return 1
 }
