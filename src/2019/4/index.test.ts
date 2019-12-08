@@ -1,4 +1,5 @@
-import { checkDecreasing, checkRepeating, checkStrictDoubles } from "."
+import { checkDecreasing, checkStrictDoubles } from "."
+import { checkRepeating } from "../../helpers/checkRepeating"
 
 it.each([
   ["123456", false],

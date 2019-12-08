@@ -10,10 +10,6 @@ export function checkDecreasing(n: string): boolean {
   return false
 }
 
-export function checkRepeating(n: string): boolean {
-  return /(.)\1/.test(n)
-}
-
 export function checkStrictDoubles(n: string): boolean {
   const regex = /(\d)\1+/g
   const matches = n.match(regex)

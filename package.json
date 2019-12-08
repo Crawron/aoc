@@ -2,6 +2,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "author": "Crawron",
+  "main": "./src/2019/7/index.ts",
   "peerDependencies": {},
   "scripts": {
     "start": "ts-node",
