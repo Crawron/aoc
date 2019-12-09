@@ -20,7 +20,7 @@
       "request": "launch",
       "name": "Launch Program",
       "runtimeArgs": ["-r", "ts-node/register"],
-      "args": ["${workspaceFolder}/src/2019/7/index.ts"]
+      "args": ["${workspaceFolder}/src/2019/9/index.ts"]
     }
   ]
 }
