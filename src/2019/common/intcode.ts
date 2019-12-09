@@ -129,6 +129,13 @@ const opCodes: { [key: number]: Operation } = {
       prog.write(pos.value, prog.getValue(a) === prog.getValue(b) ? 1 : 0)
     },
   },
+  9: {
+    name: "relative base offset",
+    argCount: 1,
+    run: (prog, [val]) => {
+      prog.relativeBase += prog.getValue(val)
+    },
+  },
 }
 
 export type Operation = {
