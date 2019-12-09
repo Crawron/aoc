@@ -1,7 +1,12 @@
-export type ArgMode = "position" | "immediate"
+export enum ArgMode {
+  Position,
+  Immediate,
+  Relative,
+}
 export type Argument = { value: number; mode: ArgMode }
 export class Program {
   pointer = 0
+  relativeBase = 0
 
   constructor(
     private memory: number[],
@@ -28,7 +33,10 @@ export class Program {
     const op = opCodes[code]
 
     const args: Argument[] = [...modesStr.padStart(op.argCount, "0")]
-      .map(m => (m === "1" ? "immediate" : "position"))
+      .map(Number)
+      .map(m => {
+        return [ArgMode.Position, ArgMode.Immediate, ArgMode.Relative][m]
+      })
       .reverse()
       .map((m, i) => ({ value: this.getValue(pointer + i + 1), mode: m }))
 
@@ -45,8 +53,15 @@ export class Program {
   getValue = (arg?: Argument | number) => {
     if (!arg) return this.memory[this.pointer]
     if (typeof arg === "number") return this.memory[arg]
-    if (arg.mode === "position") return this.memory[arg.value]
-    else return arg.value
+
+    switch (arg.mode) {
+      case ArgMode.Immediate:
+        return arg.value
+      case ArgMode.Position:
+        return this.memory[arg.value]
+      case ArgMode.Relative:
+        return this.memory[this.relativeBase + arg.value]
+    }
   }
 
   write(position: number, value: number) {
